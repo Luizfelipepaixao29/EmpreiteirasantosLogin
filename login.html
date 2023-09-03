@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            background: url(./SANTOS.png) no-repeat center;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: rgba(19, 128, 201, 0.5);
+            padding: 70px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(8, 174, 224, 0.3);
+            position: relative;
+            animation: pulse-border 2s infinite alternate;
+        }
+
+        @keyframes pulse-border {
+            0% {
+                border-color: #007bff;
+            }
+            100% {
+                border-color: #00f;
+            }
+        }
+
+        h2 {
+            margin-top: 0;
+            color:rgb(231, 231, 238);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: rgb(231, 231, 238);
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #007bff;
+            border-radius: 3px;
+            background-color: rgba(16, 19, 214, 0.5);
+            color: #fff;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Faça Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Nome de usuário:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Aqui você pode adicionar a lógica de verificação de nome de usuário e senha.
+            // Por exemplo, você pode comparar com informações de um banco de dados ou arquivo de dados.
+
+            // Exemplo básico: Se o nome de usuário for "empreiteirasantos" e a senha for "santos2023", redirecione para a página principal após um atraso de 2 segundos.
+            if (username === "empreiteirasantos" && password === "santos2023") {
+                setTimeout(function() {
+                    window.location.href = "ponto.html"; // Substitua com a página desejada após o login.
+                }, 2000);
+            } else {
+                alert("Nome de usuário ou senha incorretos. Tente novamente.");
+            }
+        });
+    </script>
+</body>
+</html>
