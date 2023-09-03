@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cadastro de Funcionários</title>
+    <style>
+
+        #imagens {
+            text-align: center;
+            justify-items: center;
+            margin-top: -5%; /* Usando uma medida relativa */
+        }
+        
+        #imagens img {
+            max-width: 100%; /* Largura máxima de 100% para a imagem */
+            height: auto; /* Mantém a proporção da imagem */
+        }
+        
+        /* Exemplo de uma media query para estilos diferentes em telas menores */
+        @media screen and (max-width: 768px) {
+            #imagens {
+                margin-top: -17%; /* Ajuste para telas menores */
+            }
+
+            body h1 {
+                font-size: 24px; 
+            }
+            #cadastro-form #nome {
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+            }
+            #cadastro-form #funcao {
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+            }
+            #cadastro-form #ganho_por_hora {
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+            }
+            #cadastro-form #telefone {
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+            }
+            #historico-list{
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+                margin-top: 1%; /* Ajuste de margem para telas menores */
+                margin-bottom: 2%; /* Ajuste de margem para telas menores */
+                padding-top: 1%; /* Ajuste de preenchimento para telas menores */
+                padding-bottom: 2%; /* Ajuste de preenchimento para telas menores */
+                padding-left: 1%; /* Ajuste de preenchimento para telas menores */
+            }
+            
+            #entradabtn {
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+                margin-top: 1%; /* Ajuste de margem para telas menores */
+                margin-bottom: 2%; /* Ajuste de margem para telas menores */
+                padding: 1% 3%; /* Ajuste de preenchimento para telas menores (vertical, horizontal) */
+            }
+
+            #saldo-marmitas {
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+                margin: 1% auto; /* Ajuste de margem para telas menores; alinhar horizontalmente */
+                padding: 1%; /* Ajuste de preenchimento para telas menores */
+            }
+            #total-ganhos{
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+                margin: 1% auto; /* Ajuste de margem para telas menores; alinhar horizontalmente */
+                padding: 1%; /* Ajuste de preenchimento para telas menores */
+            }
+            #total-horas-trabalhada{
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+                margin: 1% auto; /* Ajuste de margem para telas menores; alinhar horizontalmente */
+                padding: 1%; /* Ajuste de preenchimento para telas menores */
+               
+            }
+            #inf-funcionario {
+                font-size: 14px; /* Tamanho de fonte menor para telas menores */
+                margin: 1% auto 50px; /* Ajuste de margem para telas menores; alinhar horizontalmente e adicionar espaço inferior */
+                padding: 1%; /* Ajuste de preenchimento para telas menores */
+            }
+            .modal-content {
+                margin: 5% auto; /* Ajuste de margem para telas menores; alinhar horizontalmente e reduzir a margem superior */
+                padding: 10px; /* Ajuste de preenchimento para telas menores */
+                width: 90%; /* Reduzir ainda mais a largura em telas menores */
+            }
+            #funcionarios-select {
+                font-size: 16px; /* Tamanho de fonte menor para telas menores */
+                margin-right: 2%; /* Ajuste de margem direita para telas menores */
+                margin-top: 2%; /* Ajuste de margem superior para telas menores */
+            }
+        }
+        
+        
+        /* Estilos do Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 24, 51, 0.7);
+            z-index: 1;
+        }
+
+        .modal-content {
+            background-color: hsl(195, 100%, 50%);
+            margin: 10% auto; /* Margem superior e inferior em porcentagem; alinhar horizontalmente e reduzir a margem superior */
+            padding: 20px; /* Preenchimento em porcentagem */
+            border-radius: 5px;
+            box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
+            width: 80%; /* Reduzir a largura em telas menores */
+        }
+
+.close {
+    color: #fff;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover {
+    color: #0000CD;
+    cursor: pointer;
+}
+
+
+/* Estilos para cabeçalhos */
+h1, h2, h3 {
+    font-family: Arial, sans-serif;
+    color: hsl(195, 100%, 50%);
+    
+}
+
+/* Estilos para links */
+a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+/* Estilos para botões */
+.btn {
+    display: inline-block;
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin-top: 30px;
+        margin-bottom: 50px;
+        padding: 13px;
+        font-size: 17px;
+        color: #0000CD;
+   
+
+}
+
+
+   
+
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border: 0;
+      outline: none;
+      font-family: 'PT Serif', serif;
+      
+    }
+    body{
+    
+      background-color: #000080;
+      color: 	#1c0fd1;
+      text-align: center;
+      padding-top: 100px;
+      
+      
+    }
+    body h1 {
+        background: #00bfff center;
+        font-weight: bolder;
+        color: #000080;
+        margin: 2% auto; /* Margens em porcentagem */
+        width: 90%;
+        text-align: center;
+        padding: 10px; /* Adicione preenchimento para melhorar a legibilidade */
+        max-width: 800px; /* Largura máxima para evitar que o texto fique muito largo */
+        border-bottom-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    
+    #edit-nome{
+        width: 100%; /* Largura de 100% para se ajustar ao contêiner pai */
+        max-width: 400px; /* Defina uma largura máxima para evitar que o elemento fique muito largo em telas maiores */
+        height: 40px;
+        border: 1px solid #000080; /* Adicione largura à borda */
+        border-radius: 15px;
+        font-weight: bolder;
+        color: #000080;
+        font-size: 17px;
+        padding-left: 10px;
+        margin-bottom: 1%; /* Margem inferior em porcentagem */
+        margin-top: 1%; /* Margem superior em porcentagem */
+    }
+    
+    #edit-funcao{
+        width: 100%; /* Largura de 100% para se ajustar ao contêiner pai */
+        max-width: 400px; /* Defina uma largura máxima para evitar que o elemento fique muito largo em telas maiores */
+        height: 40px;
+        border: 1px solid #000080; /* Adicione largura à borda */
+        border-radius: 15px;
+        font-weight: bolder;
+        color: #000080;
+        font-size: 17px;
+        padding-left: 10px;
+        margin-bottom: 1%; /* Margem inferior em porcentagem */
+        margin-top: 1%; /* Margem superior em porcentagem */
+    }
+
+    #edit-telefone{
+        width: 100%; /* Largura de 100% para se ajustar ao contêiner pai */
+        max-width: 400px; /* Defina uma largura máxima para evitar que o elemento fique muito largo em telas maiores */
+        height: 40px;
+        border: 1px solid #000080; /* Adicione largura à borda */
+        border-radius: 15px;
+        font-weight: bolder;
+        color: #000080;
+        font-size: 17px;
+        padding-left: 10px;
+        margin-bottom: 1%; /* Margem inferior em porcentagem */
+        margin-top: 1%; /* Margem superior em porcentagem */
+    }
+
+    #edit-ganho_por_hora{
+        width: 100%; /* Largura de 100% para se ajustar ao contêiner pai */
+        max-width: 400px; /* Defina uma largura máxima para evitar que o elemento fique muito largo em telas maiores */
+        height: 40px;
+        border: 1px solid #000080; /* Adicione largura à borda */
+        border-radius: 15px;
+        font-weight: bolder;
+        color: #000080;
+        font-size: 17px;
+        padding-left: 10px;
+        margin-bottom: 1%; /* Margem inferior em porcentagem */
+        margin-top: 1%; /* Margem superior em porcentagem */ 
+    }
+
+    #salvarrg {
+        width: 100%; /* Largura de 100% para se ajustar ao contêiner pai */
+        max-width: 400px; /* Defina uma largura máxima para evitar que o elemento fique muito largo em telas maiores */
+        height: 40px;
+        background-color: #000080;
+        border: 1px solid #000080; /* Adicione largura à borda */
+        border-radius: 15px;
+        font-weight: bolder;
+        color: #04b6f1;
+        font-size: 17px;
+        padding-left: 10px;
+        margin-bottom: 1%; /* Margem inferior em porcentagem */
+        margin-top: 1%; /* Margem superior em porcentagem */
+        transition: background-color 0.3s, color 0.3s; /* Adicione uma transição suave */
+    }
+    
+    #salvarrg:hover {
+        background-color: hsl(249, 100%, 50%);
+        color: hsl(260, 13%, 95%);
+        border: 2px solid hsl(260, 13%, 95%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+    
+    /* input de cadastro*/
+    
+    
+    
+    #cadastro-form{
+      background-color: hsl(195, 100%, 50%);
+      border-radius: 10px;
+      display:block;
+      margin-bottom: 20px;
+      margin-top: 30px;
+    }
+    #cadastro-form #nome {
+        width: 100%; /* Usando largura de 100% para ocupar toda a largura do formulário */
+        height: 40px;
+        border: 1px solid #000080; /* Adicionando largura à borda */
+        border-radius: 15px;
+        color: #000080;
+        font-size: 17px;
+        padding-left: 10px;
+        margin-bottom: 9px;
+        margin-top: 10px;
+    }
+    #cadastro-form  #funcao {
+        width: 100%; /* Usando largura de 100% para ocupar toda a largura do formulário */
+        height: 40px;
+        border: 1px solid #000080; /* Adicionando largura à borda */
+        border-radius: 15px;
+        color: #000080;
+        font-size: 17px;
+        padding-left: 10px;
+        margin-bottom: 9px;
+        margin-top: 10px;
+    }
+    
+    #cadastro-form #ganho_por_hora {
+        width: 100%; /* Usando largura de 100% para ocupar toda a largura do formulário */
+        height: 40px;
+        border: 1px solid #000080; /* Adicionando largura à borda */
+        border-radius: 15px;
+        color: #000080;
+        font-size: 17px;
+        padding-left: 10px;
+        margin-bottom: 9px;
+        margin-top: 10px;
+    }
+    
+    #cadastro-form  #telefone{
+        width: 100%; /* Usando largura de 100% para ocupar toda a largura do formulário */
+        height: 40px;
+        border: 1px solid #000080; /* Adicionando largura à borda */
+        border-radius: 15px;
+        color: #000080;
+        font-size: 17px;
+        padding-left: 10px;
+        margin-bottom: 9px;
+        margin-top: 10px;
+      
+    }
+    label {
+      text-align: center;
+      display: block;
+      font-size: 18px;
+      font-family: 'PT Serif', serif, bold;
+    }
+    /*botao de cadastro*/
+    #cadastrar {
+        display: inline;
+        background-color: hsl(258, 92%, 48%);
+        width: 35%;
+        height: 40px;
+        border-radius: 20px;
+        color: rgb(0, 191, 255);
+        margin-bottom: 30px;
+        margin-top: 15px;
+        transition: background-color 0.3s, color 0.3s; /* Adicione uma transição suave */
+    }
+    
+    #cadastrar:hover {
+        background-color: hsl(249, 100%, 50%);
+        color: hsl(260, 13%, 95%);
+        border: 2px solid hsl(260, 13%, 95%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);}
+    
+    /*botoes de ponto*/
+   
+    #historico-list{
+       list-style: none;
+       
+    }
+    
+    /*seleção de funcionario*/
+    #funcionarios-select::selection{
+        width: 35%;
+      height: 40px;
+      border-radius: 20px; 
+      border: hsla(6.6, 100%, 50% , .5);
+      color: #000080 ;
+      background-color: #04b6f1 ;
+      font-weight: bolder;
+      font-size: 18px;
+      padding-left: 10px;
+      margin-right: -10px;
+      margin-top:-10px;
+    }
+
+    #funcionarios-select {
+        width: 100%; /* Largura de 100% para se ajustar ao contêiner pai */
+        max-width: 400px; /* Defina uma largura máxima para evitar que o elemento fique muito largo em telas maiores */
+        height: 40px;
+        border-radius: 20px;
+        border: 1px solid hsla(6.6, 100%, 50%, 0.5);
+        color: #1859ad;
+        background-color: #eaf1f3;
+        font-weight: bolder;
+        font-size: 18px;
+        padding-left: 10px;
+        margin-right: 1%; /* Margem direita em porcentagem */
+        margin-top: 1%; /* Margem superior em porcentagem */
+    }
+    
+    
+    #saldo-marmitas {
+        display: block; /* Tornar responsivo - exibição de bloco */
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin: 2% auto; /* Margem superior e inferior em porcentagem; alinhar horizontalmente */
+        padding: 2%; /* Preenchimento em porcentagem */
+        font-size: 17px;
+        color: #0000CD;
+    }
+    
+    #total-ganhos{
+        display: block; /* Tornar responsivo - exibição de bloco */
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin: 2% auto; /* Margem superior e inferior em porcentagem; alinhar horizontalmente */
+        padding: 2%; /* Preenchimento em porcentagem */
+        font-size: 17px;
+        color: #0000CD;
+    }
+    #total-horas-trabalhadas{
+        display: block; /* Tornar responsivo - exibição de bloco */
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin: 2% auto; /* Margem superior e inferior em porcentagem; alinhar horizontalmente */
+        padding: 2%; /* Preenchimento em porcentagem */
+        font-size: 17px;
+        color: #0000CD;
+    }
+    #entradabtn {
+        display: inline-block;
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin-top: 2%;
+        margin-bottom: 3%;
+        padding: 2% 5%;
+        font-size: 17px;
+        color: #0000CD;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    #entradabtn:hover {
+        background-color: hsl(260, 13%, 95%);
+        color: hsl(195, 100%, 50%);
+        border: 2px solid hsl(195, 100%, 50%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+
+    #almocobtn{
+        display: inline-block;
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin-top: 2%;
+        margin-bottom: 3%;
+        padding: 2% 5%;
+        font-size: 17px;
+        color: #0000CD;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    #almocobtn:hover {
+        background-color: hsl(260, 13%, 95%);
+        color: hsl(195, 100%, 50%);
+        border: 2px solid hsl(195, 100%, 50%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+
+    #volta-almocobtn{
+        display: inline-block;
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin-top: 2%;
+        margin-bottom: 3%;
+        padding: 2% 5%;
+        font-size: 17px;
+        color: #0000CD;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    #volta-almocobtn:hover {
+        background-color: hsl(260, 13%, 95%);
+        color: hsl(195, 100%, 50%);
+        border: 2px solid hsl(195, 100%, 50%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+    #saidabtn{
+        display: inline-block;
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin-top: 2%;
+        margin-bottom: 3%;
+        padding: 2% 5%;
+        font-size: 17px;
+        color: #0000CD;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    #saidabtn:hover {
+        background-color: hsl(260, 13%, 95%);
+        color: hsl(195, 100%, 50%);
+        border: 2px solid hsl(195, 100%, 50%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+
+    #marmitabtn {
+        display: inline-block;
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin-top: 2%;
+        margin-bottom: 3%;
+        padding: 2% 5%;
+        font-size: 17px;
+        color: #0000CD;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    #marmitabtn:hover {
+        background-color: hsl(260, 13%, 95%);
+        color: hsl(195, 100%, 50%);
+        border: 2px solid hsl(195, 100%, 50%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+    
+
+    #extratobtn {
+        display: inline-block;
+        background-color: hsl(258, 92%, 48%);
+        border-radius: 20px;
+        margin-top: 2%;
+        margin-bottom: 3%;
+        margin-right: 3%;
+        padding: 2% 5%;
+        font-size: 17px;
+        color: hsl(195, 100%, 50%);
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    #extratobtn:hover {
+        background-color: hsl(249, 100%, 50%);
+        color: hsl(260, 13%, 95%);
+        border: 2px solid hsl(260, 13%, 95%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+    #extratobtn1 {
+        display: inline-block;
+        background-color: hsl(258, 92%, 48%);
+        border-radius: 20px;
+        margin-top: 2%;
+        margin-bottom: 3%;
+        margin-right: 3%;
+        padding: 2% 5%;
+        font-size: 17px;
+        color: hsl(195, 100%, 50%);
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    #extratobtn1:hover {
+        background-color: hsl(249, 100%, 50%);
+        color: hsl(260, 13%, 95%);
+        border: 2px solid hsl(260, 13%, 95%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+
+    #baixarbtn {
+        display: inline-block;
+        background-color: hsl(258, 92%, 48%);
+        border-radius: 20px;
+        margin-top: 2%;
+        margin-bottom: 3%;
+        padding: 2% 5%;
+        font-size: 17px;
+        color: hsl(195, 100%, 50%);
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    #baixarbtn:hover {
+        background-color: hsl(249, 100%, 50%);
+        color: hsl(260, 13%, 95%);
+        border: 2px solid hsl(260, 13%, 95%);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        transform: scale(1.1);
+    }
+    
+    #inf-funcionario {
+        display: block; /* Tornar responsivo - exibição de bloco */
+        background-color: hsl(195, 100%, 50%);
+        border-radius: 20px;
+        margin: 2% auto 50px; /* Margens superior e inferior em porcentagem; alinhar horizontalmente e adicionar espaço inferior */
+        padding: 2%; /* Preenchimento em porcentagem */
+        font-size: 17px;
+        color: #0000CD;
+        text-align: center; /* Alinhar texto horizontalmente no centro */
+        align-items: center; /* Alinhar verticalmente ao centro (para futuras alterações no layout) */
+        justify-content: center; /* Justificar o conteúdo horizontalmente (para futuras alterações no layout) */
+        width: auto !important;
+        height: auto !important;
+    }
+
+    #editar-funcionario {
+        display: inline-block;
+        background-color: hsl(258, 92%, 48%);
+        border-radius: 20px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        margin-right: 15px;
+        padding: 13px;
+        font-size: 17px;
+        color: hsl(195, 100%, 50%);
+        transition: background-color 0.3s, color 0.3s; /* Adicione uma transição suave */
+    }
+    
+    #editar-funcionario:hover {
+        background-color: hsl(249, 100%, 50%); /* Inverte a cor de fundo */
+        color: hsl(260, 13%, 95%); /* Inverte a cor do texto */
+        border: 2px solid hsl(260, 13%, 95%); /* Adicione uma borda ao elemento no hover */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Adicione uma sombra ao elemento no hover */
+        transform: scale(1.1); /* Aumente ligeiramente o tamanho no hover */
+    }
+    
+    #excluir-funcionario {
+        display: inline-block;
+        background-color: hsl(258, 92%, 48%);
+        border-radius: 20px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        padding: 13px;
+        font-size: 17px;
+        color: hsl(195, 100%, 50%);
+        transition: background-color 0.3s, color 0.3s; /* Adicione uma transição suave */
+    }
+    
+    #excluir-funcionario:hover {
+        background-color: hsl(249, 100%, 50%); /* Inverte a cor de fundo */
+        color: hsl(260, 13%, 95%); /* Inverte a cor do texto */
+        border: 2px solid hsl(260, 13%, 95%); /* Adicione uma borda ao elemento no hover */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Adicione uma sombra ao elemento no hover */
+        transform: scale(1.1); /* Aumente ligeiramente o tamanho no hover */
+    }
+    
+    #nomerg{
+        width: auto !important ;
+        height:auto! important;
+        text-align : center;
+        align-items:center;
+        justify-content:center;
+        /* position: relative;*/
+        top:-46%;
+        left: -1.5%;;
+
+    }
+    #historico-list{
+    
+        display: block;
+        background-color: #d2deee;
+        border-radius: 20px;
+        margin-top: 2%; /* Margem superior em porcentagem */
+        margin-bottom: 3%; /* Margem inferior em porcentagem */
+        font-size: 17px;
+        font-weight: bolder;
+        color: #0000CD;
+        padding-top: 2%; /* Preenchimento superior em porcentagem */
+        padding-bottom: 4%; /* Preenchimento inferior em porcentagem */
+        padding-left: 2%; /* Preenchimento esquerdo em porcentagem */
+    }
+   /* Reset de estilos para remover margens e preenchimentos padrão */
+body, h1, h2, h3, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilização do footer */
+footer {
+    background-color: #2d0fd3;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+
+
+
+.footer-disclaimer {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 14px;
+}
+
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+        
+        <!-- Seus estilos CSS e outros scripts JavaScript -->
+</head>
+
+<body>
+    <div id="imagens">
+        <!-- Seu conteúdo vai aqui -->
+        <img src="EMPREITEIRASANTOS.png" alt="Uma imagem">
+    </div>
+    
+    <h1> Cadastrar Funcionário</h1>
+    <form id="cadastro-form">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" required>
+        <label for="funcao">Função:</label>
+        <input type="text" id="funcao" required>
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" required>
+        <label for="ganho_por_hora">Ganho por Hora:</label>
+        <input type="number" id="ganho_por_hora" required> <br>
+        <button id="cadastrar" type="submit">Cadastrar</button>
+        <audio id="som">
+            <source src="tuque.mp3" type="audio/mpeg">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
+        <audio id="som2">
+            <source src="ponto.mp3" type="audio/mpeg">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
+    </form>
+
+    
+    <h1>Funcionários</h1>
+    <select id="funcionarios-select" onchange="selecionarFuncionario()">
+        <option value="">Selecione um funcionário</option>
+        
+    </select>
+    <button id="extratobtn" onclick="verExtrato()">Ver Extrato</button>
+
+    <h1>Informações</h1>
+    <p id="saldo-marmitas">Saldo de Marmitas: 0</p><br>
+    <p id="total-ganhos">Total de Ganhos: R$ 0.00</p><br>
+    <p id="total-horas-trabalhadas">Total de Horas Trabalhadas: 0 horas</p>
+
+    <h1>Histórico do Funcionário</h1>
+    <ul id="historico-list"></ul><br>
+    <button id="entradabtn" onclick="registrarEvento('entrada ')">Registrar Entrada</button><br>
+    <button id="almocobtn" onclick="registrarEvento('almoço')">Registrar Almoço</button><br>
+    <button id="volta-almocobtn" onclick="registrarEvento('volta do almoço')">Registrar Volta</button><br>
+    <button id="saidabtn" onclick="registrarEvento('saída')">Registrar Saída</button><br>
+    <button id="marmitabtn" onclick="registrarEvento('marmita')">Registrar Marmita</button> <br>
+    <button id="extratobtn1" onclick="verExtrato()">Ver Extrato</button>
+    <button id="baixarbtn" onclick="salvarComoCSV()">Baixar Extrato (CSV)</button>
+    <h1>Informações do Funcionário</h1>
+    <div id="inf-funcionario">
+        <p id="nomerg"><strong>Nome:</strong> <span id="info-nome"></span></p>
+    <p id="funcaorg"><strong>Função:</strong> <span id="info-funcao"></span></p>
+    <p id="telefonerg"><strong>Telefone:</strong> <span id="info-telefone"></span></p>
+    <p id="ganhosrg"><strong>Ganho por Hora:</strong> <span id="info-ganho_por_hora"></span></p><br>
+    <button id="editar-funcionario">Editar Funcionário</button>
+    <button id="excluir-funcionario">Excluir Funcionário</button>
+    </div>
+
+        <!-- Modal de Edição -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-edit-modal">&times;</span>
+            <h2>Editar Funcionário</h2>
+            <form id="edit-form">
+                <label for="edit-nome">Nome:</label>
+                <input type="text" id="edit-nome">
+                <label for="edit-funcao">Função:</label>
+                <input type="text" id="edit-funcao">
+                <label for="edit-telefone">Telefone:</label>
+                <input type="text" id="edit-telefone">
+                <label for="edit-ganho_por_hora">Ganho por Hora:</label>
+                <input  type="number" id="edit-ganho_por_hora"><br>
+                <button id="salvarrg" type="submit">Salvar</button>
+                
+
+            </form>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            
+            <div class="footer-disclaimer">
+                &copy; 2023 Empreiteira Santos. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+
+        
+ // Obtenha referências aos elementos de áudio
+var audio = document.getElementById('som');
+var audio2 = document.getElementById('som2'); // Adicione referência ao segundo som, se necessário
+
+// Obtenha referências aos botões individuais
+var botaoSalvarRg = document.getElementById('salvarrg');
+var botaoEditarFuncionario = document.getElementById('editar-funcionario');
+var botaoBaixar = document.getElementById('baixarbtn');
+var botaoCadastrar = document.getElementById('cadastrar'); // Adicione referência ao botão Cadastrar
+var botaoExtrato = document.getElementById('extratobtn');
+botaoExtrato1 = document.getElementById('extratobtn1');
+// Obtenha referências aos botões de marmita, saída, volta ao almoço, almoço e entrada
+var botaoMarmita = document.getElementById('marmitabtn');
+var botaoSaida = document.getElementById('saidabtn');
+var botaoVoltaAlmoco = document.getElementById('volta-almocobtn');
+var botaoAlmoco = document.getElementById('almocobtn');
+var botaoEntrada = document.getElementById('entradabtn');
+var botaoExcluirFuncionario = document.getElementById('excluir-funcionario');
+
+// Adicione ouvintes de evento de clique a cada botão individual
+botaoSalvarRg.addEventListener('click', function() {
+    reproduzirSom(audio);
+});
+botaoEditarFuncionario.addEventListener('click', function() {
+    reproduzirSom(audio);
+});
+botaoBaixar.addEventListener('click', function() {
+    reproduzirSom(audio);
+});
+botaoCadastrar.addEventListener('click', function() {
+    reproduzirSom(audio);
+});
+botaoCadastrar.addEventListener('click', function() {
+    reproduzirSom(audio2);
+});
+botaoExtrato.addEventListener('click', function() {
+    reproduzirSom(audio);
+});
+botaoExtrato1.addEventListener('click', function() {
+    reproduzirSom(audio);
+});
+
+botaoMarmita.addEventListener('click', function() {
+    reproduzirSom(audio2); // Reproduza o segundo som ao clicar neste botão
+});
+botaoSaida.addEventListener('click', function() {
+    reproduzirSom(audio2); // Reproduza o segundo som ao clicar neste botão
+});
+botaoVoltaAlmoco.addEventListener('click', function() {
+    reproduzirSom(audio2); // Reproduza o segundo som ao clicar neste botão
+});
+botaoAlmoco.addEventListener('click', function() {
+    reproduzirSom(audio2); // Reproduza o segundo som ao clicar neste botão
+});
+botaoEntrada.addEventListener('click', function() {
+    reproduzirSom(audio2); // Reproduza o segundo som ao clicar neste botão
+});
+botaoExcluirFuncionario.addEventListener('click', function() {
+    reproduzirSom(audio);
+});
+
+// Função para reproduzir o som
+function reproduzirSom(audioElement) {
+    // Verifique se o som está pronto para ser reproduzido
+    if (audioElement.readyState === 4) {
+        audioElement.currentTime = 0; // Reinicie o som, se já estiver reproduzindo
+    }
+    audioElement.play(); // Reproduza o som
+}
+
+
+        // Inicializar o Firebase
+        const firebaseConfig = {
+            apiKey: "SUA_API_KEY",
+            authDomain: "empreiteira-santos.firebaseapp.com",
+            projectId: "empreiteira-santos",
+            storageBucket: "empreiteira-santos.appspot.com",
+            messagingSenderId: "SEU_SENDER_ID",
+            appId: "SEU_APP_ID",
+            measurementId: "SUA_MEASUREMENT_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Referência para o Firestore
+        const db = firebase.firestore();
+
+        // Capturar o formulário
+        const form = document.getElementById("cadastro-form");
+        const funcionariosSelect = document.getElementById("funcionarios-select");
+        let selectedEmployeeId = null;
+
+        // Função para carregar os funcionários
+        function carregarFuncionarios() {
+            db.collection("funcionarios").get().then(function(querySnapshot) {
+                funcionariosSelect.innerHTML = '<option value="">Selecione um funcionário</option>';
+                querySnapshot.forEach(function(doc) {
+                    const funcionario = doc.data();
+                    const option = document.createElement("option");
+                    option.value = doc.id;
+                    option.textContent = funcionario.nome;
+                    funcionariosSelect.appendChild(option);
+                });
+            });
+        }
+
+        // Função para selecionar um funcionário
+        function selecionarFuncionario() {
+            selectedEmployeeId = funcionariosSelect.value;
+        }
+
+        function exibirHistorico(funcionario) {
+            const historicoList = document.getElementById("historico-list");
+            historicoList.innerHTML = ""; // Limpar a lista de histórico
+        
+            // Verificar se funcionario é indefinido
+            if (funcionario && funcionario.historico) {
+                // Exibir os eventos no histórico
+                funcionario.historico.forEach(function(evento) {
+                    const dataHora = new Date(evento.timestamp);
+                    const dataHoraFormatada = `${dataHora.toLocaleDateString()} ${dataHora.toLocaleTimeString()}`;
+                    const eventoItem = document.createElement("li");
+                    eventoItem.textContent = `${evento.tipo} - ${dataHoraFormatada}`;
+                    historicoList.appendChild(eventoItem);
+                });
+            }
+        }
+
+        function salvarComoCSV() {
+            const historicoList = document.getElementById("historico-list");
+        
+            if (historicoList) {
+                const linhas = historicoList.querySelectorAll("li");
+                let csvData = "Tipo,Data/Hora\n";
+        
+                linhas.forEach(function(linha) {
+                    const partes = linha.textContent.split(" - ");
+                    const tipo = partes[0];
+                    const dataHora = partes[1];
+                    csvData += tipo + "," + dataHora + "\n";
+                });
+        
+                const blob = new Blob([csvData], { type: "text/csv" });
+                const url = window.URL.createObjectURL(blob);
+        
+                const linkDownload = document.createElement("a");
+                linkDownload.href = url;
+                linkDownload.download = "historico.csv";
+                linkDownload.click();
+            } else {
+                console.error("Elemento 'historico-list' não encontrado.");
+            }
+        }
+        
+        
+        
+
+        // Função para registrar um evento de ponto ou marmita
+        function registrarEvento(tipo) {
+            if (selectedEmployeeId) {
+                const horaAtual = new Date().toISOString();
+                db.collection("funcionarios").doc(selectedEmployeeId).update({
+                    historico: firebase.firestore.FieldValue.arrayUnion({ tipo: tipo, timestamp: horaAtual })
+                }).then(function() {
+                    console.log("Evento registrado com sucesso!");
+                    exibirHistorico(selectedEmployeeId);
+                }).catch(function(error) {
+                    console.error("Erro ao registrar evento: ", error);
+                });
+            }
+        }
+
+        // Função para calcular o saldo de marmitas
+        function calcularSaldoMarmitas(historico) {
+            let saldoMarmitas = 0;
+            historico.forEach(function(evento) {
+                if (evento.tipo === "marmita") {
+                    saldoMarmitas++;
+                }
+            });
+            return saldoMarmitas;
+        }
+
+        // Função para calcular o total de ganhos e horas trabalhadas
+        function calcularGanhosEHoras(historico, ganhoPorHora) {
+            let totalGanhos = 0;
+            let totalHorasTrabalhadas = 0;
+            let entrada = null;
+            let saida = null;
+
+            historico.forEach(function(evento) {
+                if (evento.tipo === "entrada") {
+                    entrada = new Date(evento.timestamp);
+                } else if (evento.tipo === "saída") {
+                    saida = new Date(evento.timestamp);
+                    if (entrada && saida) {
+                        const diferencaHoras = (saida - entrada) / (1000 * 60 * 60);
+                        totalHorasTrabalhadas += diferencaHoras;
+                        totalGanhos += diferencaHoras * ganhoPorHora;
+                        entrada = null;
+                        saida = null;
+                    }
+                }
+            });
+
+            return { totalGanhos, totalHorasTrabalhadas };
+        }
+
+        // Função para ver o extrato do funcionário
+        // Função para ver o extrato do funcionário
+// Função para ver o extrato do funcionário
+// Função para ver o extrato do funcionário
+function verExtrato() {
+    if (selectedEmployeeId) {
+        db.collection("funcionarios").doc(selectedEmployeeId).get().then(function(doc) {
+            const funcionario = doc.data();
+            const historico = funcionario.historico;
+            exibirHistorico(funcionario);
+
+            // Calcular o saldo de marmitas
+            const saldoMarmitas = calcularSaldoMarmitas(historico);
+
+            // Calcular o total de ganhos e horas trabalhadas
+            const { totalGanhos, totalHorasTrabalhadas } = calcularGanhosEHoras(historico, funcionario.ganho_por_hora);
+
+            // Exibir informações de saldo, ganhos e horas trabalhadas
+            const saldoMarmitasElement = document.getElementById("saldo-marmitas");
+            saldoMarmitasElement.textContent = `Saldo de Marmitas: ${saldoMarmitas}`;
+
+            const totalGanhosElement = document.getElementById("total-ganhos");
+            totalGanhosElement.textContent = `Total de Ganhos: R$ ${totalGanhos.toFixed(2)}`;
+
+            const totalHorasTrabalhadasElement = document.getElementById("total-horas-trabalhadas");
+            totalHorasTrabalhadasElement.textContent = `Total de Horas Trabalhadas: ${totalHorasTrabalhadas} horas`;
+
+            // Verificar se o elemento "historico-div" existe
+            const historicoDiv = document.getElementById("historico-div");
+            if (historicoDiv) {
+                if (historico.length > 0) {
+                    historicoDiv.style.display = "block"; // Mostrar o histórico
+                } else {
+                    historicoDiv.style.display = "none"; // Ocultar o histórico
+                }
+            }
+
+            // Mostrar ou ocultar o botão "Salvar Histórico como PNG" com base no histórico
+            const salvarHistoricoPNGButton = document.getElementById("salvar-historico-png");
+            if (salvarHistoricoPNGButton) {
+                if (historico.length > 0) {
+                    salvarHistoricoPNGButton.style.display = "block"; // Mostrar o botão
+                } else {
+                    salvarHistoricoPNGButton.style.display = "none"; // Ocultar o botão
+                }
+            }
+        }).catch(function(error) {
+            console.error("Erro ao obter o histórico: ", error);
+        });
+    }
+}
+
+
+
+ // Função para baixar o extrato como um arquivo PDF
+ function baixarExtrato() {
+    if (selectedEmployeeId) {
+        // Certifique-se de que a biblioteca jsPDF foi carregada
+        if (typeof jsPDF !== "undefined") {
+            const pdf = new jsPDF();
+            const historicoList = document.getElementById("historico-list");
+            const historicoItems = historicoList.getElementsByTagName("li");
+            let posY = 20;
+
+            pdf.setFontSize(18);
+            pdf.text("Extrato do Funcionário", 70, posY);
+            posY += 10;
+
+            for (let i = 0; i < historicoItems.length; i++) {
+                const itemText = historicoItems[i].textContent;
+                pdf.text(itemText, 10, posY);
+                posY += 10;
+            }
+
+            // Gerar o PDF como uma URL de dados
+            const pdfDataUri = pdf.output("datauristring");
+
+            // Criar uma âncora para download do PDF
+            const downloadLink = document.createElement("a");
+            downloadLink.href = pdfDataUri;
+            downloadLink.download = "extrato.pdf";
+            downloadLink.textContent = "Baixar Extrato (PDF)";
+
+            // Adicionar a âncora à página e clicar nela automaticamente
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+
+            // Remover a âncora após o download
+            document.body.removeChild(downloadLink);
+        } else {
+            console.error("Biblioteca jsPDF não está definida. Certifique-se de que foi carregada corretamente.");
+        }
+    }
+}
+
+    
+
+        // Quando o formulário for enviado
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const nome = form.querySelector("#nome").value;
+            const funcao = form.querySelector("#funcao").value;
+            const telefone = form.querySelector("#telefone").value;
+            const ganhoPorHora = parseFloat(form.querySelector("#ganho_por_hora").value);
+
+            // Adicionar os dados ao Firestore
+            db.collection("funcionarios").add({
+                nome: nome,
+                funcao: funcao,
+                telefone: telefone,
+                ganho_por_hora: ganhoPorHora,
+                historico: [] // Inicializar histórico vazio
+            })
+            .then(function(docRef) {
+                console.log("Documento adicionado com ID: ", docRef.id);
+                form.reset();
+                carregarFuncionarios(); // Recarregar lista de funcionários após cadastro
+            })
+            .catch(function(error) {
+                console.error("Erro ao adicionar documento: ", error);
+            });
+        });
+
+        // Quando o documento estiver pronto
+        document.addEventListener("DOMContentLoaded", function() {
+            carregarFuncionarios();
+        });
+
+        // Ouvinte de evento para o envio do formulário de edição
+document.getElementById("edit-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const novoNome = editNomeInput.value;
+    const novaFuncao = editFuncaoInput.value;
+    const novoTelefone = editTelefoneInput.value;
+    const novoGanhoPorHora = parseFloat(editGanhoPorHoraInput.value);
+
+    // Atualize os dados do funcionário no Firebase
+    db.collection("funcionarios")
+        .doc(selectedEmployeeId)
+        .update({
+            nome: novoNome,
+            funcao: novaFuncao,
+            telefone: novoTelefone,
+            ganho_por_hora: novoGanhoPorHora
+        })
+        .then(function() {
+            console.log("Dados do funcionário atualizados com sucesso!");
+
+            // Feche o modal de edição
+            const editModal = document.getElementById("edit-modal");
+            editModal.style.display = "none";
+
+            // Atualize as informações do funcionário na interface
+            preencherInformacoesFuncionario({
+                nome: novoNome,
+                funcao: novaFuncao,
+                telefone: novoTelefone,
+                ganho_por_hora: novoGanhoPorHora
+            });
+        })
+        .catch(function(error) {
+            console.error("Erro ao atualizar dados do funcionário: ", error);
+        });
+});
+
+
+        // Função para preencher as informações do funcionário selecionado
+        function preencherInformacoesFuncionario(funcionario) {
+            if (funcionario) {
+                document.getElementById("info-nome").textContent = funcionario.nome;
+                document.getElementById("info-funcao").textContent = funcionario.funcao;
+                document.getElementById("info-telefone").textContent = funcionario.telefone;
+                document.getElementById("info-ganho_por_hora").textContent = funcionario.ganho_por_hora.toFixed(2);
+            } else {
+                // Limpar informações se nenhum funcionário estiver selecionado
+                document.getElementById("info-nome").textContent = "";
+                document.getElementById("info-funcao").textContent = "";
+                document.getElementById("info-telefone").textContent = "";
+                document.getElementById("info-ganho_por_hora").textContent = "";
+            }
+        }
+
+        funcionariosSelect.addEventListener("change", function() {
+            const selectedFuncionarioId = funcionariosSelect.value;
+            if (selectedFuncionarioId) {
+                db.collection("funcionarios")
+                    .doc(selectedFuncionarioId)
+                    .get()
+                    .then(function(doc) {
+                        const funcionario = doc.data();
+                        preencherInformacoesFuncionario(funcionario);
+                    })
+                    .catch(function(error) {
+                        console.error("Erro ao obter informações do funcionário: ", error);
+                    });
+            } else {
+                // Se nenhum funcionário estiver selecionado, limpe as informações
+                preencherInformacoesFuncionario(null);
+            }
+        });
+        
+       // Definir campos de entrada e modal de edição no escopo global
+const editNomeInput = document.getElementById("edit-nome");
+const editFuncaoInput = document.getElementById("edit-funcao");
+const editTelefoneInput = document.getElementById("edit-telefone");
+const editGanhoPorHoraInput = document.getElementById("edit-ganho_por_hora");
+const editModal = document.getElementById("edit-modal");
+
+// Função para editar um funcionário
+function editarFuncionario() {
+    if (selectedEmployeeId) {
+        // Obtenha os dados do funcionário selecionado
+        db.collection("funcionarios")
+            .doc(selectedEmployeeId)
+            .get()
+            .then(function(doc) {
+                const funcionario = doc.data();
+
+                // Preencha os campos de entrada do modal com os dados atuais do funcionário
+                editNomeInput.value = funcionario.nome;
+                editFuncaoInput.value = funcionario.funcao;
+                editTelefoneInput.value = funcionario.telefone;
+                editGanhoPorHoraInput.value = funcionario.ganho_por_hora;
+
+                // Exiba o modal de edição
+                editModal.style.display = "block";
+            })
+            .catch(function(error) {
+                console.error("Erro ao obter informações do funcionário: ", error);
+            });
+    }
+}
+
+// Ouvinte de evento para o botão "Editar Funcionário"
+document.getElementById("editar-funcionario").addEventListener("click", editarFuncionario);
+
+// Ouvinte de evento para o envio do formulário de edição
+document.getElementById("edit-form").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const novoNome = editNomeInput.value;
+    const novaFuncao = editFuncaoInput.value;
+    const novoTelefone = editTelefoneInput.value;
+    const novoGanhoPorHora = parseFloat(editGanhoPorHoraInput.value);
+
+    // Atualize os dados do funcionário no Firebase
+    db.collection("funcionarios")
+        .doc(selectedEmployeeId)
+        .update({
+            nome: novoNome,
+            funcao: novaFuncao,
+            telefone: novoTelefone,
+            ganho_por_hora: novoGanhoPorHora
+        })
+        .then(function() {
+            console.log("Dados do funcionário atualizados com sucesso!");
+
+            // Feche o modal de edição
+            editModal.style.display = "none";
+
+            // Atualize as informações do funcionário na interface
+            preencherInformacoesFuncionario({
+                nome: novoNome,
+                funcao: novaFuncao,
+                telefone: novoTelefone,
+                ganho_por_hora: novoGanhoPorHora
+            });
+        })
+        .catch(function(error) {
+            console.error("Erro ao atualizar dados do funcionário: ", error);
+        });
+});
+
+        
+
+                // Ouvinte de evento para fechar o modal de edição
+        document.getElementById("close-edit-modal").addEventListener("click", function() {
+            const editModal = document.getElementById("edit-modal");
+            editModal.style.display = "none";
+        });
+
+        // Ouvinte de evento para fechar o modal clicando fora dele
+        window.addEventListener("click", function(event) {
+            const editModal = document.getElementById("edit-modal");
+            if (event.target === editModal) {
+                editModal.style.display = "none";
+            }
+        });
+
+
+
+        // Função para excluir um funcionário
+        function excluirFuncionario() {
+            if (selectedEmployeeId) {
+                if (confirm("Tem certeza de que deseja excluir este funcionário?")) {
+                    db.collection("funcionarios")
+                        .doc(selectedEmployeeId)
+                        .delete()
+                        .then(function() {
+                            console.log("Funcionário excluído com sucesso!");
+                            carregarFuncionarios(); // Recarregar a lista de funcionários após a exclusão
+                            preencherInformacoesFuncionario(null); // Limpar as informações exibidas
+                        })
+                        .catch(function(error) {
+                            console.error("Erro ao excluir funcionário: ", error);
+                        });
+                }
+            }
+        }
+
+        // Adicione ouvintes de evento aos botões de edição e exclusão
+        document.getElementById("editar-funcionario").addEventListener("click", editarFuncionario);
+        document.getElementById("excluir-funcionario").addEventListener("click", excluirFuncionario);
+
+    </script>
+</body>
+</html>
